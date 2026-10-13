@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahoraria Emprende ✨</title>
+
+<style>
+:root{
+  --bg:#f7f5ff;--card:#fff;--text:#27213d;--muted:#827b99;
+  --primary:#7865f5;--pink:#ff91b8;--green:#caff80;
+  --border:#ebe7f6;--shadow:0 8px 28px #32245c0c;
+}
+body.dark{
+  --bg:#171525;--card:#242137;--text:#f6f2ff;--muted:#b7afcc;
+  --border:#3a3451;--shadow:0 8px 28px #0003;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;transition:.25s}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;transition:.2s}
+button:hover{transform:translateY(-2px)}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:17px 5%;background:var(--card);box-shadow:var(--shadow);flex-wrap:wrap}
+.logo{font-size:25px;font-weight:900}.logo span{color:var(--primary)}
+.header-actions{display:flex;gap:8px;align-items:center}
+.icon-btn,.nav-btn,.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:bold}
+.icon-btn{background:var(--bg);color:var(--text)}
+nav{display:flex;gap:8px;padding:13px 5%;background:var(--card);overflow-x:auto}
+.nav-btn{white-space:nowrap;background:var(--bg);color:var(--text)}
+.nav-btn.active,.btn.primary{background:var(--primary);color:white}
+main{max-width:1180px;margin:25px auto;padding:0 18px}
+.page{display:none;animation:appear .3s ease}.page.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(27px,4vw,39px);margin:0 0 8px}
+h2{font-size:20px;margin-top:0}
+p{line-height:1.55}.muted{color:var(--muted)}
+.hero{background:linear-gradient(125deg,#282044,#7561f5);color:white;padding:32px;border-radius:25px;position:relative;overflow:hidden;margin-bottom:20px}
+.hero p{max-width:650px;color:#eee9ff}
+.hero h1{max-width:650px}
+.hero .floating{position:absolute;right:35px;bottom:12px;font-size:78px;animation:float 3s infinite ease-in-out}
+@keyframes float{50%{transform:translateY(-12px) rotate(5deg)}}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:18px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:var(--card);padding:21px;border-radius:20px;border:1px solid var(--border);box-shadow:var(--shadow);min-width:0}
+.stat{font-size:clamp(23px,3vw,31px);font-weight:800;overflow-wrap:anywhere;margin:8px 0}
+.emoji{font-size:30px;margin-bottom:10px}
+.btn{background:#eeeaff;color:var(--text);display:inline-block;margin:4px 3px 4px 0}
+.btn.pink{background:#ffe2ee;color:#39223b}
+.btn.green{background:var(--green);color:#25213b}
+.btn.danger{background:#ffe2e7;color:#9d2b4c}
+.btn.small{padding:7px 10px;font-size:12px}
+label{font-size:13px;font-weight:bold;display:block;margin-top:10px}
+input,select,textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:11px;background:var(--bg);color:var(--text);margin:6px 0 12px}
+input:focus,select:focus,textarea:focus{outline:2px solid #b7adff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pill{font-size:12px;border-radius:20px;padding:5px 9px;background:var(--bg);display:inline-block}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--border);padding:13px 0}
+.item:last-child{border-bottom:0}
+.item strong{overflow-wrap:anywhere}
+.income{color:#1ca879;font-weight:bold}.expense{color:#ef668f;font-weight:bold}
+.progress{height:10px;background:var(--border);border-radius:20px;overflow:hidden;margin:12px 0}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--pink));transition:width .4s}
+.bar-row{display:grid;grid-template-columns:90px 1fr 75px;gap:8px;align-items:center;margin:13px 0;font-size:13px}
+.bar{height:12px;background:var(--border);border-radius:20px;overflow:hidden}
+.bar div{height:100%;background:var(--pink);border-radius:20px}
+.idea-card{display:flex;flex-direction:column}
+.idea-card p{flex:1}
+.video-box{background:linear-gradient(135deg,#ded7ff,#ffd8e8);border-radius:14px;padding:24px;text-align:center;font-size:38px}
+a{color:var(--primary);font-weight:bold;text-decoration:none}
+a:hover{text-decoration:underline}
+.check{display:flex;align-items:center;gap:10px;background:var(--bg);padding:12px;border-radius:11px;margin:8px 0;font-weight:normal}
+.check input{width:auto;margin:0}
+.notice{background:#fff3cf;color:#5b4a1c;border-radius:13px;padding:14px;font-size:13px;margin-top:15px}
+.empty{text-align:center;padding:20px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:28px;font-size:12px}
+#toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,100px);background:#282044;color:white;padding:13px 20px;border-radius:13px;z-index:10;opacity:0;transition:.3s;box-shadow:var(--shadow);max-width:90%;text-align:center}
+#toast.show{transform:translate(-50%,0);opacity:1}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:9;overflow:hidden}
+.confetti-piece{position:absolute;top:-20px;font-size:22px;animation:fall 2s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.hero .floating{opacity:.3}.hero{padding:24px}}
+@media(max-width:470px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.bar-row{grid-template-columns:75px 1fr 65px}.hero .floating{right:8px}}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="logo">✳ ahoraria<span>.</span></div>
+  <div class="header-actions">
+    <span class="muted">Tu futuro empieza hoy</span>
+    <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+  </div>
+</header>
+
+<nav id="navigation">
+  <button class="nav-btn active" data-page="home">🏠 Inicio</button>
+  <button class="nav-btn" data-page="money">💸 Mi dinero</button>
+  <button class="nav-btn" data-page="savings">🐷 Ahorro</button>
+  <button class="nav-btn" data-page="business">🚀 Emprender</button>
+  <button class="nav-btn" data-page="videos">🎬 Videos</button>
+  <button class="nav-btn" data-page="plan">📝 Mi plan</button>
+</nav>
+
+<main>
+<!-- INICIO -->
+<section id="home" class="page active">
+  <div class="hero">
+    <div>✨ TU ESPACIO FINANCIERO</div>
+    <h1 id="greeting">¡Hola! Vamos por tus metas.</h1>
+    <p>Organiza tu dinero, crea hábitos de ahorro y transforma tus ideas en un emprendimiento.</p>
+    <button class="btn green" onclick="go('money')">Organizar mi dinero →</button>
+    <button class="btn pink" onclick="go('business')">Explorar ideas 💡</button>
+    <div class="floating">🚀</div>
+  </div>
+
+  <div class="card">
+    <label for="userName">¿Cómo quieres que te saludemos?</label>
+    <div class="row">
+      <input id="userName" placeholder="Escribe tu nombre o apodo">
+      <button class="btn primary" onclick="saveName()">Personalizar ✨</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="emoji">💰</div><div class="muted">Saldo calculado</div><div class="stat" id="balance">$0</div><span class="pill">Ingresos − gastos</span></div>
+    <div class="card"><div class="emoji">🌱</div><div class="muted">Ingresos</div><div class="stat income" id="incomeTotal">$0</div><span class="pill">Dinero recibido</span></div>
+    <div class="card"><div class="emoji">🛍️</div><div class="muted">Gastos</div><div class="stat expense" id="expenseTotal">$0</div><span class="pill">Dinero utilizado</span></div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h2>📊 ¿En qué gastas?</h2>
+      <div id="chart"><p class="empty">Registra algunos gastos para ver tu gráfica.</p></div>
+    </div>
+    <div class="card">
+      <h2>🎯 Tus metas</h2>
+      <div id="homeGoals"><p class="empty">Crea tu primera meta de ahorro.</p></div>
+      <button class="btn primary" onclick="go('savings')">Ver mis metas →</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>✨ Consejo del día</h2>
+    <p id="tip">Ahorrar no significa dejar de disfrutar, sino decidir qué es importante para ti.</p>
+    <button class="btn pink" onclick="newTip()">Dame otro consejo 💡</button>
+  </div>
+</section>
+
+<!-- DINERO -->
+<section id="money" class="page">
+  <h1>Mi dinero 💸</h1>
+  <p class="muted">Cada registro te ayuda a entender mejor tus finanzas.</p>
+  <div class="two">
+    <div class="card">
+      <h2 id="formTitle">➕ Nuevo movimiento</h2>
+      <form id="transactionForm">
+        <input type="hidden" id="editId">
+        <label for="type">Tipo</label>
+        <select id="type"><option value="income">Ingreso</option><option value="expense">Gasto</option></select>
+        <label for="description">Descripción</label>
+        <input id="description" placeholder="Ej. mesada, venta de postres..." required>
+        <div class="row">
+          <div><label for="amount">Valor ($ COP)</label><input id="amount" type="number" min="1" required placeholder="10000"></div>
+          <div><label for="date">Fecha</label><input id="date" type="date" required></div>
+        </div>
+        <label for="category">Categoría</label>
+        <select id="category">
+          <option>Mesada</option><option>Ventas</option><option>Comida</option>
+          <option>Transporte</option><option>Estudio</option><option>Materiales</option>
+          <option>Entretenimiento</option><option>Ropa</option><option>Otro</option>
+        </select>
+        <button class="btn primary" type="submit" id="saveTransaction">Guardar movimiento 💾</button>
+        <button class="btn" type="button" onclick="resetTransactionForm()">Limpiar</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>🔎 Buscar movimientos</h2>
+      <label for="search">Buscar por descripción</label>
+      <input id="search" placeholder="Escribe para buscar...">
+      <label for="filter">Filtrar por tipo</label>
+      <select id="filter"><option value="all">Todos</option><option value="income">Ingresos</option><option value="expense">Gastos</option></select>
+      <p class="muted">Puedes editar o eliminar un movimiento cuando lo necesites.</p>
+      <div id="transactionSummary"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h2>📋 Historial</h2>
+    <div id="transactions"></div>
+  </div>
+</section>
+
+<!-- AHORRO -->
+<section id="savings" class="page">
+  <h1>Mis metas de ahorro 🐷</h1>
+  <p class="muted">Un paso pequeño también es progreso.</p>
+  <div class="two">
+    <div class="card">
+      <h2>🎯 Crear una meta</h2>
+      <form id="goalForm">
+        <label for="goalName">¿Para qué quieres ahorrar?</label>
+        <input id="goalName" placeholder="Ej. materiales para mi negocio" required>
+        <label for="goalTarget">¿Cuánto necesitas? ($)</label>
+        <input id="goalTarget" type="number" min="1" required>
+        <label for="goalSaved">¿Cuánto llevas ahorrado? ($)</label>
+        <input id="goalSaved" type="number" min="0" value="0" required>
+        <button class="btn primary" type="submit">Crear meta ✨</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>🌈 Un recordatorio</h2>
+      <p>Elige una cantidad realista que puedas guardar sin descuidar tus necesidades.</p>
+      <p>💡 Puedes dividir una meta grande en varias metas pequeñas.</p>
+      <div class="pill">Tu ritmo, tus objetivos</div>
+    </div>
+  </div>
+  <div id="goals" class="grid"></div>
+</section>
+
+<!-- EMPRENDER -->
+<section id="business" class="page">
+  <div class="hero">
+    <div>IDEAS QUE PUEDEN CRECER 🌱</div>
+    <h1>Tu próxima gran idea empieza con un primer paso.</h1>
+    <p>Explora opciones, piensa en tus clientes y prueba tu idea antes de invertir demasiado.</p>
+    <button class="btn green" onclick="go('plan')">Crear mi plan →</button>
+    <div class="floating">💡</div>
+  </div>
+  <h2>🌈 Elige una idea que te inspire</h2>
+  <div class="grid" id="ideas"></div>
+
+  <h2>🌐 Recursos para emprender</h2>
+  <div class="grid">
+    <div class="card"><div class="emoji">🎓</div><h2>SENA</h2><p>Formación y aprendizaje.</p><a href="https://www.sena.edu.co/" target="_blank" rel="noopener">Visitar SENA ↗</a></div>
+    <div class="card"><div class="emoji">🚀</div><h2>Fondo Emprender</h2><p>Información sobre convocatorias y apoyo.</p><a href="https://www.fondoemprender.com/" target="_blank" rel="noopener">Explorar ↗</a></div>
+    <div class="card"><div class="emoji">🧾</div><h2>DIAN</h2><p>Información tributaria oficial.</p><a href="https://www.dian.gov.co/" target="_blank" rel="noopener">Visitar ↗</a></div>
+    <div class="card"><div class="emoji">🏢</div><h2>Confecámaras</h2><p>Información sobre cámaras de comercio.</p><a href="https://confecamaras.org.co/" target="_blank" rel="noopener">Explorar ↗</a></div>
+    <div class="card"><div class="emoji">📈</div><h2>Google Grow</h2><p>Recursos y habilidades digitales.</p><a href="https://grow.google/intl/es/" target="_blank" rel="noopener">Aprender ↗</a></div>
+    <div class="card"><div class="emoji">🧠</div><h2>Consejo emprendedor</h2><p>Pregunta a tus posibles clientes qué necesitan antes de gastar mucho.</p><button class="btn pink" onclick="newTip()">Otro consejo</button></div>
+  </div>
+  <div class="notice">🔐 Comprueba que las páginas y convocatorias sean oficiales. No existe una ganancia garantizada y debes desconfiar de promesas de dinero fácil.</div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos" class="page">
+  <h1>Aprende con videos 🎬</h1>
+  <p class="muted">Elige un tema para buscar tutoriales educativos.</p>
+  <div class="grid" id="videoList"></div>
+  <div class="notice">Los enlaces abren búsquedas de YouTube, no videos seleccionados individualmente. Revisa la fuente y compara la información.</div>
+</section>
+
+<!-- PLAN -->
+<section id="plan" class="page">
+  <h1>Mi plan de negocio 📝</h1>
+  <p class="muted">Convierte una idea en pasos concretos.</p>
+  <div class="two">
+    <div class="card">
+      <h2>💡 Mi idea</h2>
+      <form id="planForm">
+        <label for="planIdea">¿Qué quieres vender u ofrecer?</label>
+        <input id="planIdea" required placeholder="Ej. accesorios personalizados">
+        <label for="customers">¿Quiénes serían tus clientes?</label>
+        <input id="customers" required placeholder="Ej. estudiantes, familias...">
+        <label for="difference">¿Qué haría especial tu idea?</label>
+        <textarea id="difference" rows="3" placeholder="¿Qué necesidad resuelves?"></textarea>
+        <div class="row">
+          <div><label for="cost">Costo por unidad ($)</label><input id="cost" type="number" min="0" placeholder="3000"></div>
+          <div><label for="price">Precio de venta ($)</label><input id="price" type="number" min="0" placeholder="5000"></div>
+        </div>
+        <div class="card" style="padding:14px;background:var(--bg)">
+          <div class="muted">Diferencia estimada por unidad</div>
+          <div class="stat" id="profit">$0</div>
+          <small class="muted">No incluye otros posibles gastos, impuestos ni tu tiempo.</small>
+        </div>
+        <button class="btn primary" type="submit">Guardar mi plan 💾</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>☑️ Mis primeros pasos</h2>
+      <p class="muted">Marca las tareas que completes.</p>
+      <div id="tasks"></div>
+      <div class="progress"><div id="taskBar"></div></div>
+      <p id="taskCount" class="muted">0 de 6 completadas</p>
+      <button class="btn pink" onclick="resetTasks()">Reiniciar checklist</button>
+      <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
+      <h2>📌 Mi siguiente paso</h2>
+      <p>Elige una acción sencilla que puedas realizar esta semana.</p>
+      <textarea id="nextStep" rows="3" placeholder="Ej. preguntar a cinco personas si comprarían mi producto"></textarea>
+      <button class="btn primary" onclick="saveNextStep()">Guardar siguiente paso</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<div id="toast"></div>
+<div id="confetti"></div>
+<footer>✳ Ahoraria Emprende · Aprende, organiza y crece a tu ritmo.</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const read = (key, fallback) => {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch { return fallback; }
+};
+const write = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+const money = value => new Intl.NumberFormat("es-CO", {
+  style:"currency", currency:"COP", maximumFractionDigits:0
+}).format(value);
+const safe = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+
+let transactions = read("ahx_transactions", []);
+let goals = read("ahx_goals", []);
+let tips = [
+  "Anota los gastos pequeños: al sumarlos, pueden sorprenderte.",
+  "Calcula el costo de los materiales antes de fijar un precio.",
+  "Pregunta a posibles clientes qué necesitan antes de invertir.",
+  "Separa el dinero personal del dinero de tu emprendimiento.",
+  "Prueba tu idea a pequeña escala antes de comprar muchos materiales.",
+  "Compara precios y revisa la calidad antes de comprar suministros."
+];
+
+function toast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => $("toast").classList.remove("show"), 2500);
+}
+
+function celebrate() {
+  const container = $("confetti");
+  const symbols = ["✨","💗","🌟","🎉","💜"];
+  for (let i=0; i<28; i++) {
+    const piece = document.createElement("span");
+    piece.className = "confetti-piece";
+    piece.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    piece.style.left = Math.random()*100 + "%";
+    piece.style.animationDelay = Math.random()*.8 + "s";
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), 3000);
+  }
+}
+
+function go(page) {
+  document.querySelectorAll(".page").forEach(el => el.classList.toggle("active", el.id === page));
+  document.querySelectorAll(".nav-btn").forEach(el => el.classList.toggle("active", el.dataset.page === page));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav-btn").forEach(btn => btn.addEventListener("click", () => go(btn.dataset.page)));
+
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+  const dark = document.body.classList.contains("dark");
+  localStorage.setItem("ahx_dark", dark ? "1" : "0");
+  $("themeBtn").textContent = dark ? "☀️" : "🌙";
+}
+if (localStorage.getItem("ahx_dark") === "1") {
+  document.body.classList.add("dark");
+  $("themeBtn").textContent = "☀️";
+}
+
+function saveName() {
+  const name = $("userName").value.trim();
+  localStorage.setItem("ahx_name", name);
+  updateGreeting();
+  toast(name ? "¡Tu página está personalizada! ✨" : "Saludo actualizado.");
+}
+function updateGreeting() {
+  const name = localStorage.getItem("ahx_name");
+  $("greeting").textContent = name ? `¡Hola, ${name}! Vamos por tus metas.` : "¡Hola! Vamos por tus metas.";
+  $("userName").value = name || "";
+}
+
+function newTip() {
+  $("tip").textContent = tips[Math.floor(Math.random()*tips.length)];
+}
+
+function saveTransactions() {
+  write("ahx_transactions", transactions);
+  renderAll();
+}
+
+$("date").value = new Date().toISOString().slice(0,10);
+
+$("transactionForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const description = $("description").value.trim();
+  const amount = Number($("amount").value);
+  if (!description || !Number.isFinite(amount) || amount <= 0) {
+    toast("Escribe una descripción y un valor válido.");
+    return;
+  }
+
+  const id = $("editId").value;
+  const item = {
+    id: id ? Number(id) : Date.now(),
+    type: $("type").value,
+    description,
+    amount,
+    date: $("date").value,
+    category: $("category").value
+  };
+
+  if (id) {
+    transactions = transactions.map(t => t.id === Number(id) ? item : t);
+    toast("Movimiento actualizado ✨");
+  } else {
+    transactions.unshift(item);
+    toast("Movimiento guardado 💸");
+  }
+  saveTransactions();
+  resetTransactionForm();
+});
+
+function resetTransactionForm() {
+  $("transactionForm").reset();
+  $("editId").value = "";
+  $("date").value = new Date().toISOString().slice(0,10);
+  $("formTitle").textContent = "➕ Nuevo movimiento";
+  $("saveTransaction").textContent = "Guardar movimiento 💾";
+}
+
+function editTransaction(id) {
+  const t = transactions.find(x => x.id === id);
+  if (!t) return;
+  $("editId").value = t.id;
+  $("type").value = t.type;
+  $("description").value = t.description;
+  $("amount").value = t.amount;
+  $("date").value = t.date;
+  $("category").value = t.category;
+  $("formTitle").textContent = "✏️ Editar movimiento";
+  $("saveTransaction").textContent = "Guardar cambios";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteTransaction(id) {
+  if (!confirm("¿Quieres eliminar este movimiento?")) return;
+  transactions = transactions.filter(t => t.id !== id);
+  saveTransactions();
+  toast("Movimiento eliminado.");
+}
+
+$("search").addEventListener("input", renderTransactions);
+$("filter").addEventListener("change", renderTransactions);
+
+function renderTransactions() {
+  const term = $("search").value.toLowerCase().trim();
+  const filter = $("filter").value;
+  const filtered = transactions.filter(t =>
+    t.description.toLowerCase().includes(term) &&
+    (filter === "all" || t.type === filter)
+  );
+  $("transactionSummary").textContent = `${filtered.length} movimiento(s) encontrado(s).`;
+  $("transactions").innerHTML = filtered.length ? filtered.map(t => `
+    <div class="item">
+      <div>
+        <strong>${safe(t.description)}</strong><br>
+        <small class="muted">${safe(t.category)} · ${safe(t.date)}</small>
+      </div>
+      <div style="text-align:right">
+        <div class="${t.type === "income" ? "income" : "expense"}">${t.type === "income" ? "+" : "−"}${money(t.amount)}</div>
+        <button class="btn small" onclick="editTransaction(${t.id})">Editar</button>
+        <button class="btn danger small" onclick="deleteTransaction(${t.id})">Eliminar</button>
+      </div>
+    </div>`).join("") : '<div class="empty">No encontramos movimientos con esos filtros.</div>';
+}
+
+function renderChart() {
+  const totals = {};
+  transactions.filter(t => t.type === "expense").forEach(t => {
+    totals[t.category] = (totals[t.category] || 0) + t.amount;
+  });
+  const entries = Object.entries(totals).sort((a,b) => b[1]-a[1]).slice(0,6);
+  const max = Math.max(...entries.map(x => x[1]), 1);
+  $("chart").innerHTML = entries.length ? entries.map(([name,amount]) => `
+    <div class="bar-row">
+      <span>${safe(name)}</span>
+      <div class="bar"><div style="width:${amount/max*100}%"></div></div>
+      <strong>${money(amount)}</strong>
+    </div>`).join("") : '<p class="empty">Registra algunos gastos para ver tu gráfica.</p>';
+}
+
+function renderStats() {
+  const income = transactions.filter(t => t.type === "income").reduce((s,t)=>s+t.amount,0);
+  const expense = transactions.filter(t => t.type === "expense").reduce((s,t)=>s+t.amount,0);
+  $("balance").textContent = money(income-expense);
+  $("incomeTotal").textContent = money(income);
+  $("expenseTotal").textContent = money(expense);
+}
+
+$("goalForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const name = $("goalName").value.trim();
+  const target = Number($("goalTarget").value);
+  const saved = Number($("goalSaved").value);
+  if (!name || target <= 0 || saved < 0) {
+    toast("Revisa los datos de tu meta.");
+    return;
+  }
+  goals.push({id:Date.now(),name,target,saved:Math.min(saved,target)});
+  write("ahx_goals",goals);
+  event.target.reset();
+  $("goalSaved").value = 0;
+  renderGoals();
+  toast("¡Nueva meta creada! 🐷");
+  celebrate();
+});
+
+function addToGoal(id) {
+  const goal = goals.find(g => g.id === id);
+  if (!goal || goal.saved >= goal.target) return toast("¡Esta meta ya está completada!");
+  const value = prompt("¿Cuánto quieres aportar? (pesos)");
+  if (value === null) return;
+  const amount = Number(value);
+  if (!Number.isFinite(amount) || amount <= 0) return toast("Escribe una cantidad válida.");
+  goal.saved = Math.min(goal.target,goal.saved+amount);
+  write("ahx_goals",goals);
+  renderGoals();
+  if (goal.saved >= goal.target) {
+    toast("¡META COMPLETADA! ¡Lo lograste! 🎉");
+    celebrate();
+  } else toast("¡Buen trabajo! Tu ahorro sigue creciendo.");
+}
+
+function deleteGoal(id) {
+  if (!confirm("¿Eliminar esta meta?")) return;
+  goals = goals.filter(g => g.id !== id);
+  write("ahx_goals",goals);
+  renderGoals();
+  toast("Meta eliminada.");
+}
+
+function renderGoals() {
+  $("goals").innerHTML = goals.length ? goals.map(g => {
+    const pct = Math.min(100,Math.round(g.saved/g.target*100));
+    return `<div class="card">
+      <div class="emoji">${pct===100?"🏆":"🐷"}</div>
+      <h2>${safe(g.name)}</h2>
+      <p>${money(g.saved)} de ${money(g.target)}</p>
+      <div class="progress"><div style="width:${pct}%"></div></div>
+      <strong>${pct}% completado</strong>
+      <p class="muted">${money(Math.max(0,g.target-g.saved))} por reunir</p>
+      <button class="btn primary" onclick="addToGoal(${g.id})">+ Aportar</button>
+      <button class="btn danger" onclick="deleteGoal(${g.id})">Eliminar</button>
+    </div>`;
+  }).join("") : '<div class="card empty">Aún no tienes metas. ¡Crea la primera! ✨</div>';
+
+  $("homeGoals").innerHTML = goals.length ? goals.slice(0,3).map(g => {
+    const pct = Math.min(100,Math.round(g.saved/g.target*100));
+    return `<p><strong>${safe(g.name)}</strong> · ${pct}%</p>
+      <div class="progress"><div style="width:${pct}%"></div></div>`;
+  }).join("") : '<p class="empty">Crea tu primera meta de ahorro.</p>';
+}
+
+const ideas = [
+  ["🧁","Postres y alimentos","Galletas, cupcakes o postres por encargo."],
+  ["🎀","Accesorios","Pulseras, llaveros y detalles personalizados."],
+  ["📱","Servicios digitales","Invitaciones, diseños o edición de contenido."],
+  ["📚","Apoyo escolar","Guías de estudio y tutorías."],
+  ["👕","Ropa personalizada","Prendas y accesorios con diseños propios."],
+  ["🌿","Productos ecológicos","Regalos sostenibles y artículos reutilizables."]
+];
+$("ideas").innerHTML = ideas.map(([emoji,title,desc]) => `
+  <div class="card idea-card">
+    <div class="emoji">${emoji}</div><h2>${title}</h2><p>${desc}</p>
+    <button class="btn pink" onclick="chooseIdea('${title}')">Elegir esta idea ✨</button>
+  </div>`).join("");
+
+function chooseIdea(title) {
+  $("planIdea").value = title;
+  go("plan");
+  savePlanSilently();
+  toast("¡Idea seleccionada! Completa tu plan.");
+}
+
+const videos = [
+  ["💡","Ideas de negocio","ideas de negocio para principiantes"],
+  ["🧮","Costos y ganancias","como calcular costos precio de venta y ganancia"],
+  ["📱","Marketing digital","marketing digital para pequeños emprendimientos"],
+  ["💰","Finanzas personales","finanzas personales para jovenes presupuesto"],
+  ["🛍️","Ventas y clientes","ventas y atencion al cliente para emprendedores"],
+  ["📝","Plan de negocio","como hacer un plan de negocio paso a paso"]
+];
+$("videoList").innerHTML = videos.map(([emoji,title,query]) => `
+  <div class="card">
+    <div class="video-box">${emoji} ▶️</div>
+    <h2>${title}</h2>
+    <p>Aprende nuevas habilidades con tutoriales educativos.</p>
+    <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(query)}" target="_blank" rel="noopener">Buscar videos ↗</a>
+  </div>`).join("");
+
+const planFields = ["planIdea","customers","difference","cost","price"];
+function savePlanSilently() {
+  const data = {};
+  planFields.forEach(id => data[id] = $(id).value);
+  write("ahx_plan",data);
+}
+function loadPlan() {
+  const data = read("ahx_plan",{});
+  planFields.forEach(id => $(id).value = data[id] || "");
+  $("nextStep").value = localStorage.getItem("ahx_nextstep") || "";
+  updateProfit();
+}
+$("planForm").addEventListener("submit",event => {
+  event.preventDefault();
+  savePlanSilently();
+  toast("¡Tu plan está guardado! 💾");
+  celebrate();
+});
+["cost","price"].forEach(id => $(id).addEventListener("input",updateProfit));
+
+function updateProfit() {
+  const cost = $("cost").value;
+  const price = $("price").value;
+  if (cost === "" || price === "") {
+    $("profit").textContent = "Completa los valores";
+    return;
+  }
+  const difference = Number(price)-Number(cost);
+  $("profit").textContent = money(difference);
+  $("profit").style.color = difference >= 0 ? "#1ca879" : "#ef668f";
+}
+function saveNextStep() {
+  localStorage.setItem("ahx_nextstep",$("nextStep").value);
+  toast("Siguiente paso guardado ✨");
+}
+
+const taskNames = [
+  "Investigar si mi idea interesa a los clientes.",
+  "Calcular materiales y otros costos.",
+  "Comparar precios de productos similares.",
+  "Pensar cómo promocionar mi producto.",
+  "Definir un presupuesto realista.",
+  "Elegir mi siguiente paso."
+];
+const taskState = read("ahx_tasks",[]);
+$("tasks").innerHTML = taskNames.map((name,i) => `
+  <label class="check"><input type="checkbox" data-task="${i}"> ${name}</label>`).join("");
+
+function updateTasks() {
+  const checks = [...document.querySelectorAll("[data-task]")];
+  const state = checks.map(c=>c.checked);
+  write("ahx_tasks",state);
+  const done = state.filter(Boolean).length;
+  $("taskBar").style.width = (done/checks.length*100)+"%";
+  $("taskCount").textContent = `${done} de ${checks.length} tareas completadas`;
+  if (done === checks.length) {
+    toast("¡Completaste todas las tareas! 🎉");
+    celebrate();
+  }
+}
+function resetTasks() {
+  if (!confirm("¿Quieres reiniciar tu checklist?")) return;
+  document.querySelectorAll("[data-task]").forEach(c=>c.checked=false);
+  updateTasks();
+}
+document.querySelectorAll("[data-task]").forEach((check,i) => {
+  check.checked = taskState[i] || false;
+  check.addEventListener("change",updateTasks);
+});
+
+function renderAll() {
+  renderStats();
+  renderTransactions();
+  renderChart();
+  renderGoals();
+}
+updateGreeting();
+loadPlan();
+renderAll();
+updateTasks();
+</script>
+</body>
+</html>
